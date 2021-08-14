@@ -9,9 +9,9 @@ export const Header = styled.div`
   button {
     float: right;
     margin-left: 100px;
-    height: 110px;
+    height: 102px;
+    padding-bottom: 5px;
     width: 250px;
-    border: 6px solid #033;
     border-radius: 25px;
     text-align: center;
     font-family: cursive; 
@@ -24,14 +24,14 @@ export const Header = styled.div`
 export const Counter = styled.div`
   float: left;
   height: 100px;
-  width: 250px;
-  border: 6px solid #033;
+  width: ${props => props.victory ? '400px' : '250px'};
   border-radius: 25px;
   text-align: center;
   font-family: cursive; 
   font-weight: bold;
   font-size: 60px;
   background-color: orange;
+  transition: ease-out 2s;
   img {
     height: 70px;
     margin-left: 10px;

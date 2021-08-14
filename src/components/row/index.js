@@ -3,7 +3,7 @@ import Cell from '../../components/cell/index';
 import {RowContainer} from './styles'
 
 
-export default function Row({row, setGameOver, gameOver, restart, getEmptyCells, count, display}) {
+export default function Row({row, setGameOver, gameOver, restart, getEmptyCells, countFlags, countMinesFlagged, victory}) {
 
   return (
     <RowContainer
@@ -14,11 +14,12 @@ export default function Row({row, setGameOver, gameOver, restart, getEmptyCells,
           restart={restart}
           setGameOver={() => setGameOver(true)}
           gameOver={gameOver}
-          display={(cell) => display(cell)}
           cell={cell}
+          victory={victory}
           key={index}
           getEmptyCells={(cell) => getEmptyCells(cell)}
-          count={(type) => count(type)}
+          countFlags={(type) => countFlags(type)}
+          countMinesFlagged={(type) => countMinesFlagged(type)}
         />
       })}
     </RowContainer>

@@ -3,7 +3,8 @@ import {CellContainer} from './styles'
 import bee from '../../assets/bee.png'
 import flag from '../../assets/flag.png'
 
-export default function Cell({cell, gameOver, setGameOver, restart, display, getEmptyCells, count}) {
+
+export default function Cell({cell, gameOver, setGameOver, restart, getEmptyCells, countFlags, countMinesFlagged, victory}) {
   const [hidden, setHidden] = useState(true);
   const [flagged, setFlagged] = useState(false);
   const [filter, setFilter] = useState('');
@@ -15,11 +16,8 @@ export default function Cell({cell, gameOver, setGameOver, restart, display, get
   }, [gameOver])
 
   useEffect(() => {
-    // console.log(cell.display)
     if (cell.display && !flagged) {
       setHidden(false);
-      // setFlagged(false);
-      // console.log(hidden)
     }
   }, [cell.display, flagged])
 
@@ -28,7 +26,6 @@ export default function Cell({cell, gameOver, setGameOver, restart, display, get
       if (cell.nearBombs === 0) {
         getEmptyCells(cell);
       }
-      display(cell);
     }
   }, [hidden, cell])
 
@@ -48,17 +45,29 @@ export default function Cell({cell, gameOver, setGameOver, restart, display, get
       setFilter('brightness(10%) sepia(80%) invert(10%) hue-rotate(90deg)');
       setHoverFilter('empty');
     } else {
-      setFilter('brightness(55%) sepia(50%)');
-      setHoverFilter('brightness(55%) sepia(50%) hue-rotate(30deg)');
-      // setFilter('brightness(25%) hue-rotate(290deg) invert(10%)');
+      setFilter('brightness(55%) sepia(50%) hue-rotate(360deg)');
+      setHoverFilter('brightness(55%) sepia(50%) hue-rotate(390deg)');
     }
   }, [cell, hidden, flagged])
+
+  useEffect(() => {
+    if (victory && !cell.mine) {
+      if (cell.nearBombs === 0) {
+        setFilter('brightness(10%) sepia(80%) invert(10%) hue-rotate(90deg)');
+        setHoverFilter('brightness(10%) sepia(80%) invert(10%) hue-rotate(360deg)');
+      } else {
+        setFilter('brightness(55%) sepia(50%) hue-rotate(360deg)');
+        setHoverFilter('brightness(55%) sepia(50%) hue-rotate(30deg)');
+      }
+    }
+  }, [victory, cell])
 
   return (
     <CellContainer
       filter={filter}
       hoverFilter={hoverFilter}
       number={cell.nearBombs}
+      victory={victory}
       onClick={() => {
         // console.log(cell.nearBombs);
         if (gameOver) {
@@ -75,14 +84,14 @@ export default function Cell({cell, gameOver, setGameOver, restart, display, get
       onContextMenu={(e) => {
         e.preventDefault();
         if (!gameOver && hidden) {
-          if (!flagged) {
-            count(true);
-          } else {
-            count(false);
+          countFlags(!flagged);
+          if (cell.mine) {
+            countMinesFlagged(!flagged);
           }
-          setFlagged(!flagged);
         }
-      }}
+        setFlagged(!flagged);
+      }
+      }
     >
       <div>
         {flagged ? <img src={flag} alt="flag" style={{height: '50px', transform: Math.random() > 0.5 ? 'scaleX(-1)' : 'none'}} /> :

@@ -8,6 +8,7 @@ export default function Grid() {
   const [victory, setVictory] = useState(false);
   const [grid, setGrid] = useState([]);
   const [flagCounter, setFlagCounter] = useState(0);
+  const [minesFlagged, setMinesFlagged] = useState(0);
   const [bees, setBees] = useState(0);
 
   const config = {
@@ -81,7 +82,7 @@ export default function Grid() {
     }
   }
 
-  const count = (add) => {
+  const countFlags = (add) => {
     if (add) {
       setFlagCounter(count => count + 1);
     } else {
@@ -89,17 +90,20 @@ export default function Grid() {
     }
   }
 
-  const restart = () => {
-    // createGrid(10);
-    setFlagCounter(0);
-    setGameOver(false);
-    console.log('restart');
+  const countMinesFlagged = (add) => {
+    if (add) {
+      setMinesFlagged(count => count + 1);
+    } else {
+      setMinesFlagged(count => count - 1);
+    }
   }
 
-  const display = (cell) => {
-    let gridUpdate = grid;
-    gridUpdate[cell.row][cell.col].display = true;
-    setGrid(gridUpdate => [...gridUpdate]);
+  const restart = () => {
+    if (victory) {
+      setVictory(false);
+    }
+    setFlagCounter(0);
+    setGameOver(false);
   }
 
   useEffect(() => {
@@ -113,33 +117,21 @@ export default function Grid() {
   }, [flagCounter, config]);
 
   useEffect(() => {
-    console.log(`Bees: ${config.mines - flagCounter}`);
-    if (config.mines - flagCounter === 0) {
-      let counter = 0;
-      grid.forEach(row => {
-        row.forEach(cell => {
-          if (cell.display) {
-            counter++;
-          }
-        })
-      })
-      if (counter === config.rows * config.cols - config.mines) {
-        console.log("YOU WON THE GAME!");
-        alert("You won!!!");
-        setVictory(true);
-        setGameOver(true);
-      }
+    if (config.mines - minesFlagged === 0) {
+      setVictory(true);
+      setGameOver(true);
     }
-  }, [flagCounter, config, grid]);
+  }, [config, minesFlagged]);
 
   return (
     <>
       <Header>
-        <Counter>
-          {victory ? "You won!" :
-            bees}
-          {!victory &&
-            <img src={bee} alt="bees" />}
+        <Counter victory={victory}>
+          {victory ? "You won!" : (
+            <>
+              {bees}
+              <img src={bee} alt="bees" />
+            </>)}
         </Counter>
         <button>Restart</button>
       </Header>
@@ -149,10 +141,11 @@ export default function Grid() {
             return <Row
               restart={restart}
               setGameOver={() => setGameOver(true)}
-              count={(type) => count(type)}
-              display={(cell) => display(cell)}
+              countFlags={(type) => countFlags(type)}
+              countMinesFlagged={(type) => countMinesFlagged(type)}
               gameOver={gameOver}
               row={cells}
+              victory={victory}
               key={index}
               getEmptyCells={(cell) => getEmptyCells(cell)}
             />
