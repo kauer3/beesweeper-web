@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import Row from '../../components/row/index';
+import React, {useEffect, useState, useMemo} from 'react';
+import Cell from '../../components/cell/index';
 import {GridContainer, Header, Counter} from './styles'
 import bee from '../../assets/bee.png'
 
@@ -7,15 +7,18 @@ export default function Grid() {
   const [gameOver, setGameOver] = useState(false);
   const [victory, setVictory] = useState(false);
   const [grid, setGrid] = useState([]);
+  const [revealed, setRevealed] = useState(0); // TODO fix revealed count and update victory formula
   const [flagCounter, setFlagCounter] = useState(0);
   const [minesFlagged, setMinesFlagged] = useState(0);
   const [bees, setBees] = useState(0);
 
-  const config = {
-    mines: 10,
-    rows: 9,
-    cols: 15
-  }
+  const config = useMemo(() => {
+    return {
+      mines: 10,
+      rows: 10,
+      cols: 10
+    }
+  }, []);
 
   const createGrid = () => {
     console.log("creating grid!")
@@ -66,6 +69,7 @@ export default function Grid() {
   }
 
   const getEmptyCells = (cell) => {
+    // let revealed = 0
     for (let i = -1; i < 2; i++) {
       if (cell.row + i > -1 && cell.row + i < config.rows) {
         const range = i === 0 ? {start: -1, end: 2} :
@@ -73,9 +77,14 @@ export default function Grid() {
             {start: -1, end: 1};
         for (let l = range.start; l < range.end; l++) {
           if (cell.col + l > -1 && cell.col + l < config.cols && (i !== 0 || l !== 0)) {
-            let gridUpdate = grid;
-            gridUpdate[cell.row + i][cell.col + l].display = true;
-            setGrid(gridUpdate => [...gridUpdate]);
+            if (!grid[cell.row + i][cell.col + l].display) {
+              let gridUpdate = grid;
+              gridUpdate[cell.row + i][cell.col + l].display = true;
+              setGrid(gridUpdate => [...gridUpdate]);
+              // revealed++
+              setRevealed(count => count + 1);
+            }
+            // console.log(gridUpdate[cell.row + i][cell.col + l].row, gridUpdate[cell.row + i][cell.col + l].col);
           }
         }
       }
@@ -107,6 +116,10 @@ export default function Grid() {
   }
 
   useEffect(() => {
+    console.log(revealed);
+  }, [revealed]);
+
+  useEffect(() => {
     if (!gameOver) {
       createGrid();
     }
@@ -135,20 +148,26 @@ export default function Grid() {
         </Counter>
         <button>Restart</button>
       </Header>
-      <GridContainer>
+      <GridContainer
+        cols={config.cols}
+        rows={config.rows}
+      >
         {grid.length > 0 &&
-          grid.map((cells, index) => {
-            return <Row
-              restart={restart}
-              setGameOver={() => setGameOver(true)}
-              countFlags={(type) => countFlags(type)}
-              countMinesFlagged={(type) => countMinesFlagged(type)}
-              gameOver={gameOver}
-              row={cells}
-              victory={victory}
-              key={index}
-              getEmptyCells={(cell) => getEmptyCells(cell)}
-            />
+          grid.map((row) => {
+            return row.map((cell, index) => {
+              return <Cell
+                restart={restart}
+                setGameOver={() => setGameOver(true)}
+                countRevealed={() => setRevealed(count => count + 1)}
+                countFlags={(type) => countFlags(type)}
+                countMinesFlagged={(type) => countMinesFlagged(type)}
+                gameOver={gameOver}
+                cell={cell}
+                victory={victory}
+                key={index}
+                getEmptyCells={(cell) => getEmptyCells(cell)}
+              />
+            })
           })}
       </GridContainer>
     </>

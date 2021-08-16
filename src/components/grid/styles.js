@@ -40,5 +40,11 @@ export const Counter = styled.div`
 `
 
 export const GridContainer = styled.div`
-  // background: brown;
+  display: grid;
+  // width: 100%;
+  // height: 100vh;
+  grid-template-columns: repeat(${props => props.cols}, 53px);
+  grid-template-rows: repeat(${props => props.rows}, 45px);
+  column-gap: 5px;
+  row-gap: 5px;
 `
