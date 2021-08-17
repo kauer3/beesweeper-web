@@ -18,7 +18,7 @@ export default function Cell({cell, gameOver, setGameOver, countRevealed, restar
       setHidden(false);
       countRevealed();
     }
-  }, [cell.display, flagged])
+  }, [cell.display, flagged, hidden])
 
   useEffect(() => {
     if (!hidden) {
@@ -35,7 +35,7 @@ export default function Cell({cell, gameOver, setGameOver, countRevealed, restar
       random={Math.random() > .5}
       evenRow={cell.row % 2 !== 0}
       evenCol={cell.col % 2 !== 0}
-      type={hidden ? (flagged ? 'flag' : 'hidden') : cell.mine ? 'mine' : cell.nearBombs === 0 ? 'empty' : 'number'}
+      type={hidden ? (flagged ? (cell.mine ? 'flag' : 'missFlag') : 'hidden') : cell.mine ? 'mine' : cell.nearBombs === 0 ? 'empty' : 'number'}
       onClick={() => {
         if (gameOver) {
           restart();
@@ -56,15 +56,14 @@ export default function Cell({cell, gameOver, setGameOver, countRevealed, restar
           if (cell.mine) {
             countMinesFlagged(!flagged);
           }
+          setFlagged(!flagged);
         }
-        setFlagged(!flagged);
-      }
-      }
+      }}
     >
       <div>
         {flagged ? <img src={flag} alt="flag" style={{height: '40px', transform: Math.random() > 0.5 ? 'scaleX(-1)' : 'none'}} /> :
           hidden ? '' :
-            cell.mine ? <img src={bee} alt=":(" style={{height: '60px', marginTop: '-10px', transform: `rotate(${Math.random() * 360}deg`}} /> :
+            cell.mine ? <img src={bee} alt=":(" style={{height: '60px', marginTop: '-8px', transform: `rotate(${Math.random() * 360}deg`}} /> :
               cell.nearBombs > 0 ?
                 cell.nearBombs :
                 ''}

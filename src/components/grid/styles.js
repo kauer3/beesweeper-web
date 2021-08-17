@@ -1,18 +1,22 @@
 import styled from 'styled-components'
 
 export const Header = styled.div`
-  display: inline-block;
-  height: 140px;
-  padding-left: 400px;
-  padding-top: 35px;
+  display: inline-flex;
+  justify-content: center;
+  gap: 80px;
+  padding: 23px 0 23px 0;
   text-align: center;
+  width: 100%;
   button {
     float: right;
-    margin-left: 100px;
-    height: 102px;
-    padding-bottom: 5px;
-    width: 250px;
-    border-radius: 25px;
+    height: 90px;
+    box-shadow: 5px 5px 5px;
+    transition: ease-out 0.5s;
+    // padding-bottom: 5px;
+    // width: 250px;
+    // padding: 0 0 5px 50px;
+    padding-bottom: 7px;
+    border-radius: 20px;
     text-align: center;
     font-family: cursive; 
     font-weight: bold;
@@ -22,29 +26,41 @@ export const Header = styled.div`
 `
 
 export const Counter = styled.div`
+  display: inline-flex;
+  justify-content: center;
+  gap: 5px;
   float: left;
-  height: 100px;
-  width: ${props => props.victory ? '400px' : '250px'};
-  border-radius: 25px;
+  height: 90px;
+  // width: ${props => props.victory ? '400px' : '250px'};
+  padding: 0 50px 0 50px;
+  border-radius: 20px;
   text-align: center;
   font-family: cursive; 
   font-weight: bold;
   font-size: 60px;
   background-color: orange;
-  transition: ease-out 2s;
+  box-shadow: 5px 5px 5px;
+  transition: ease-out 0.5s;
+  div {
+    float: left;
+    height: 80px;
+    margin-top: 1px;
+  }
   img {
-    height: 70px;
-    margin-left: 10px;
-    margin-top: 2px;
+    float: right;
+    height: 80px;
+    margin-top: 3px;
   }
 `
 
 export const GridContainer = styled.div`
   display: grid;
+  justify-content: center;
+  padding-right: 30px;
   // width: 100%;
   // height: 100vh;
-  grid-template-columns: repeat(${props => props.cols}, 53px);
-  grid-template-rows: repeat(${props => props.rows}, 45px);
+  grid-template-columns: repeat(${props => props.cols}, 55px);
+  grid-template-rows: repeat(${props => props.rows}, 47px);
   column-gap: 5px;
   row-gap: 5px;
 `

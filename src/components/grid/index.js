@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useMemo} from 'react';
 import Cell from '../../components/cell/index';
 import {GridContainer, Header, Counter} from './styles'
-import bee from '../../assets/bee.png'
+import bee from '../../assets/bee2.png'
 
 export default function Grid() {
   const [gameOver, setGameOver] = useState(false);
@@ -11,14 +11,7 @@ export default function Grid() {
   const [flagCounter, setFlagCounter] = useState(0);
   const [minesFlagged, setMinesFlagged] = useState(0);
   const [bees, setBees] = useState(0);
-
-  const config = useMemo(() => {
-    return {
-      mines: 10,
-      rows: 10,
-      cols: 10
-    }
-  }, []);
+  const [config, setConfig] = useState({mines: 5, rows: 10, cols: 10});
 
   const createGrid = () => {
     console.log("creating grid!")
@@ -82,7 +75,7 @@ export default function Grid() {
               gridUpdate[cell.row + i][cell.col + l].display = true;
               setGrid(gridUpdate => [...gridUpdate]);
               // revealed++
-              setRevealed(count => count + 1);
+              // setRevealed(count => count + 1);
             }
             // console.log(gridUpdate[cell.row + i][cell.col + l].row, gridUpdate[cell.row + i][cell.col + l].col);
           }
@@ -112,12 +105,14 @@ export default function Grid() {
       setVictory(false);
     }
     setFlagCounter(0);
+    setMinesFlagged(0);
+    setRevealed(0);
     setGameOver(false);
   }
 
-  useEffect(() => {
-    console.log(revealed);
-  }, [revealed]);
+  // useEffect(() => {
+  //   console.log(revealed);
+  // }, [revealed]);
 
   useEffect(() => {
     if (!gameOver) {
@@ -130,6 +125,7 @@ export default function Grid() {
   }, [flagCounter, config]);
 
   useEffect(() => {
+    console.log(config.mines, minesFlagged)
     if (config.mines - minesFlagged === 0) {
       setVictory(true);
       setGameOver(true);
@@ -140,13 +136,13 @@ export default function Grid() {
     <>
       <Header>
         <Counter victory={victory}>
-          {victory ? "You won!" : (
+          {victory ? "Victory!" : (
             <>
-              {bees}
+              {<div>{bees}</div>}
               <img src={bee} alt="bees" />
             </>)}
         </Counter>
-        <button>Restart</button>
+        <button style={{width: `${gameOver ? "320" : "270"}px`}}>{gameOver ? "Restart" : "Reset"}</button>
       </Header>
       <GridContainer
         cols={config.cols}
