@@ -107,7 +107,7 @@ export const CellContainer = styled.div`
   color: ${props => props.number === 1 ? '#0044ff' : props.number === 2 ? '#009900' : props.number === 3 ? 'red' : '#ff0055'};
   filter: ${props => style(props.type, props.victory ? 'vFil' : 'fil')};
   transform: ${props => props.type === 'hidden' ? 'scale(-1, 1)' : props.victory ? 'scale(1, 1) rotate(-1080deg)' : 'scale(1, 1)'};
-  transition: ${props => props.type === 'mine' || props.victory ? 'ease-in-out 2s' : 'ease-in 0.4s'};
+  transition: ${props => props.type === 'mine' || props.victory ? 'ease-in-out 2s' : `ease-in ${props.type === 'hidden' ? '2' : '0.4'}s`};
   animation-name: ${props => props.type === 'mine' ? (props.victory ? (props.random ? skew : turn) : rotate) : 'none'};
   animation-timing-function: ${props => props.victory ? (props.random ? 'ease-in-out' : 'ease') : 'linear'};
   animation-duration: ${props => props.evenCol ? '4s' : '3.5s'};
