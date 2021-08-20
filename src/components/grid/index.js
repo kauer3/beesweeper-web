@@ -11,7 +11,7 @@ export default function Grid() {
   const [flagCounter, setFlagCounter] = useState(0);
   const [minesFlagged, setMinesFlagged] = useState(0);
   const [bees, setBees] = useState(0);
-  const [config, setConfig] = useState({mines: 5, rows: 10, cols: 10});
+  const [config, setConfig] = useState({mines: 30, rows: 10, cols: 20});
 
   const createGrid = () => {
     console.log("creating grid!")
@@ -107,16 +107,28 @@ export default function Grid() {
     setFlagCounter(0);
     setMinesFlagged(0);
     setRevealed(0);
-    setGameOver(false);
+    if (gameOver) {
+      setGameOver(false);
+    } else {
+      // setGameOver(true);
+      // createGrid();
+      setGameOver("reset");
+    }
   }
 
   // useEffect(() => {
-  //   console.log(revealed);
-  // }, [revealed]);
+  //   if (gameOver) setGameOver(false)
+  // }, [grid]);
+
+  useEffect(() => {
+    console.log(revealed);
+  }, [revealed]);
 
   useEffect(() => {
     if (!gameOver) {
       createGrid();
+    } else if (gameOver === "reset") {
+      setGameOver(false);
     }
   }, [gameOver]);
 
@@ -125,24 +137,24 @@ export default function Grid() {
   }, [flagCounter, config]);
 
   useEffect(() => {
-    console.log(config.mines, minesFlagged)
-    if (config.mines - minesFlagged === 0) {
+    console.log(config.mines - minesFlagged === 0 && config.rows * config.cols - config.mines === revealed);
+    if (config.mines - minesFlagged === 0 && config.rows * config.cols - config.mines === revealed) {
       setVictory(true);
       setGameOver(true);
     }
-  }, [config, minesFlagged]);
+  }, [config, minesFlagged, revealed]);
 
   return (
     <>
       <Header>
         <Counter victory={victory}>
-          {victory ? "Victory!" : (
+          {gameOver && gameOver !== "reset" ? (victory ? "Victory!" : "You lost") : (
             <>
               {<div>{bees}</div>}
               <img src={bee} alt="bees" />
             </>)}
         </Counter>
-        <button style={{width: `${gameOver ? "320" : "270"}px`}}>{gameOver ? "Restart" : "Reset"}</button>
+        <button onClick={() => restart()} style={{width: '320px'}}>Restart</button>
       </Header>
       <GridContainer
         cols={config.cols}
@@ -152,7 +164,6 @@ export default function Grid() {
           grid.map((row) => {
             return row.map((cell, index) => {
               return <Cell
-                restart={restart}
                 setGameOver={() => setGameOver(true)}
                 countRevealed={() => setRevealed(count => count + 1)}
                 countFlags={(type) => countFlags(type)}

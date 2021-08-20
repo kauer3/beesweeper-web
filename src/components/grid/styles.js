@@ -8,6 +8,7 @@ export const Header = styled.div`
   text-align: center;
   width: 100%;
   button {
+    cursor: pointer;
     float: right;
     height: 90px;
     box-shadow: 5px 5px 5px;
@@ -22,6 +23,11 @@ export const Header = styled.div`
     font-weight: bold;
     font-size: 60px;
     background-color: #25852E;
+    :hover {
+      transform: scale(1.05, 1.03);
+      filter: hue-rotate(45deg) saturate(250%);
+      transition: ease 0.5s;
+    }
   }
 `
 
