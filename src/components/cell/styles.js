@@ -25,28 +25,28 @@ const style = (type, prop) => {
   }
 }
 
-const turn = keyframes`
-  0% {
-    transform: scale(1, 1);
-    filter: brightness(55%) hue-rotate(0deg);
-  }
-  25% { 
-    transform: scale(1, -1);
-    filter: brightness(75%) hue-rotate(90deg);
-  }
-  50% { 
-    transform: scale(-1, -1);
-    filter: brightness(100%) hue-rotate(180deg);
-  }
-  75% {
-    transform: scale(-1, 1);
-    filter: brightness(75%) hue-rotate(270deg);
-  }
-  100% { 
-    transform: scale(1, 1);
-    filter: brightness(55%) hue-rotate(360deg);
-  }
-`
+// const turn = keyframes`
+//   0% {
+//     transform: scale(1, 1);
+//     filter: brightness(55%) hue-rotate(0deg);
+//   }
+//   25% { 
+//     transform: scale(1, -1);
+//     filter: brightness(75%) hue-rotate(90deg);
+//   }
+//   50% { 
+//     transform: scale(-1, -1);
+//     filter: brightness(100%) hue-rotate(180deg);
+//   }
+//   75% {
+//     transform: scale(-1, 1);
+//     filter: brightness(75%) hue-rotate(270deg);
+//   }
+//   100% { 
+//     transform: scale(1, 1);
+//     filter: brightness(55%) hue-rotate(360deg);
+//   }
+// `
 
 const skew = keyframes`
   0% { 
@@ -108,11 +108,12 @@ export const CellContainer = styled.div`
   filter: ${props => style(props.type, props.victory ? 'vFil' : 'fil')};
   transform: ${props => props.type === 'hidden' ? 'scale(-1, 1)' : props.victory ? 'scale(1, 1) rotate(-1080deg)' : 'scale(1, 1)'};
   transition: ${props => props.type === 'mine' || props.victory ? 'ease-in-out 2s' : `ease-in ${props.type === 'hidden' ? '2' : '0.4'}s`};
-  animation-name: ${props => props.type === 'mine' ? (props.victory ? (props.random ? skew : turn) : rotate) : 'none'};
-  animation-timing-function: ${props => props.victory ? (props.random ? 'ease-in-out' : 'ease') : 'linear'};
+  animation-name: ${props => props.type === 'mine' ? (props.victory ? skew : rotate) : 'none'};
+  animation-timing-function: ${props => props.victory ? 'ease-in-out' : 'linear'};
+  animation-delay: 1.5s;
   animation-duration: ${props => props.evenCol ? '4s' : '3.5s'};
   animation-iteration-count: infinite;
-  animation-direction: ${props => props.evenCol ? 'normal' : 'reverse'};
+  animation-direction: ${props => props.evenCol ? 'normal' : 'alternate'};
   :hover {
     transition: ${props => props.type === 'mine' || props.victory ? 'ease-out 2s' : 'ease-in 0.3s'};
     filter: ${props => style(props.type, props.victory ? 'vHFil' : 'hFil')};

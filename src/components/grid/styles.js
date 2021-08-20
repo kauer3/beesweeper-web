@@ -21,7 +21,7 @@ export const Header = styled.div`
     font-family: cursive; 
     font-weight: bold;
     font-size: 60px;
-    background-color: #445f00;
+    background-color: #25852E;
   }
 `
 
@@ -58,7 +58,6 @@ export const GridContainer = styled.div`
   justify-content: center;
   padding-right: 30px;
   // width: 100%;
-  // height: 100vh;
   grid-template-columns: repeat(${props => props.cols}, 55px);
   grid-template-rows: repeat(${props => props.rows}, 47px);
   column-gap: 5px;
