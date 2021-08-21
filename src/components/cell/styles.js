@@ -114,7 +114,7 @@ export const CellContainer = styled.div`
   transition: ${props => props.type === 'mine' || props.victory ? 'ease-in-out 2s' : `ease-in ${props.type === 'hidden' ? '1.5' : '0.4'}s`};
   animation-name: ${props => props.type === 'mine' ? (props.victory ? skew : rotate) : 'none'};
   animation-timing-function: ${props => props.victory ? 'linear' : 'ease-out'};
-  animation-delay: ${props => props.type === 'missFlag' ? '0' : '1.2s'};
+  animation-delay: ${props => props.victory ? '1.8s' : '0'};
   animation-duration: ${props => props.evenCol ? '4s' : '3.5s'};
   animation-iteration-count: infinite;
   animation-direction: ${props => props.evenCol ? 'normal' : 'alternate'};

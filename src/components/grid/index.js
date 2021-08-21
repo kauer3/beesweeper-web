@@ -1,7 +1,11 @@
 import React, {useEffect, useState, useMemo} from 'react';
+import Drawer from '@material-ui/core/Drawer';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import Cell from '../../components/cell/index';
 import {GridContainer, Header, Counter} from './styles'
 import bee from '../../assets/bee2.png'
+import gear from '../../assets/gear.png'
 
 export default function Grid() {
   const [gameOver, setGameOver] = useState(false);
@@ -11,7 +15,9 @@ export default function Grid() {
   const [flagCounter, setFlagCounter] = useState(0);
   const [minesFlagged, setMinesFlagged] = useState(0);
   const [bees, setBees] = useState(0);
-  const [config, setConfig] = useState({mines: 30, rows: 10, cols: 20});
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [config, setConfig] = useState({mines: 20, rows: 10, cols: 20});
+  const [configEditing, setConfigEditing] = useState(config);
 
   const createGrid = () => {
     console.log("creating grid!")
@@ -67,17 +73,14 @@ export default function Grid() {
       if (cell.row + i > -1 && cell.row + i < config.rows) {
         const range = i === 0 ? {start: -1, end: 2} :
           cell.row % 2 === 0 ? {start: 0, end: 2} :
-            {start: -1, end: 1};
+          {start: -1, end: 1};
         for (let l = range.start; l < range.end; l++) {
           if (cell.col + l > -1 && cell.col + l < config.cols && (i !== 0 || l !== 0)) {
             if (!grid[cell.row + i][cell.col + l].display) {
               let gridUpdate = grid;
               gridUpdate[cell.row + i][cell.col + l].display = true;
               setGrid(gridUpdate => [...gridUpdate]);
-              // revealed++
-              // setRevealed(count => count + 1);
             }
-            // console.log(gridUpdate[cell.row + i][cell.col + l].row, gridUpdate[cell.row + i][cell.col + l].col);
           }
         }
       }
@@ -137,6 +140,10 @@ export default function Grid() {
   }, [flagCounter, config]);
 
   useEffect(() => {
+    createGrid();
+  }, [config]);
+
+  useEffect(() => {
     console.log(config.mines - minesFlagged === 0 && config.rows * config.cols - config.mines === revealed);
     if (config.mines - minesFlagged === 0 && config.rows * config.cols - config.mines === revealed) {
       setVictory(true);
@@ -146,7 +153,26 @@ export default function Grid() {
 
   return (
     <>
+      <Drawer anchor="top" open={drawerOpen} onClose={() => console.log(configEditing)} style={{ padding: '50px'}}>
+        <form>
+          <TextField id="rows" label="Rows" variant="outlined" value={configEditing.rows} onChange={(e) => setConfigEditing({...configEditing, rows: e.target.value})} />
+          <TextField id="cols" label="Columns" variant="outlined" value={configEditing.cols} onChange={(e) => setConfigEditing({...configEditing, cols: e.target.value})} />
+          <TextField id="bees" label="Bees" variant="outlined" value={configEditing.mines} onChange={(e) => setConfigEditing({...configEditing, mines: e.target.value})} />
+          <Button type="submit" onClick={() => {
+            if (configEditing.mines < configEditing.rows * configEditing.cols) {
+            setDrawerOpen(false);
+            setConfig(configEditing);
+            } else {
+              alert("There is no space for that many bees!");
+            }
+          }}>Apply</Button>
+        </form>
+      </Drawer>
       <Header>
+        <button onClick={() => {
+          setDrawerOpen(true);
+        }} style={{width: '320px'}}>Configure</button>
+        <image src={bee} alt="configure" style={{ height: '100px', width: '100px' }} />
         <Counter victory={victory}>
           {gameOver && gameOver !== "reset" ? (victory ? "Victory!" : "You lost") : (
             <>
@@ -154,7 +180,9 @@ export default function Grid() {
               <img src={bee} alt="bees" />
             </>)}
         </Counter>
-        <button onClick={() => restart()} style={{width: '320px'}}>Restart</button>
+        <button onClick={() => {
+          restart();
+        }} style={{width: '320px'}}>Restart</button>
       </Header>
       <GridContainer
         cols={config.cols}

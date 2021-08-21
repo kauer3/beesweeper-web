@@ -10,7 +10,7 @@ export default function Cell({cell, gameOver, setGameOver, countRevealed, getEmp
   const [missFlagged, setMissFlagged] = useState(false);
 
   useEffect(() => {
-    if (gameOver && gameOver !== "reset") {
+    if (gameOver === true) {
       if (!flagged || cell.mine) {
         setFlagged(false);
         setHidden(false);
@@ -21,7 +21,7 @@ export default function Cell({cell, gameOver, setGameOver, countRevealed, getEmp
   }, [gameOver, flagged, cell.mine])
 
   useEffect(() => {
-    if (!gameOver) {
+    if (gameOver === false) {
       setFlagged(false);
       setHidden(true);
       setMissFlagged(false);
@@ -77,7 +77,7 @@ export default function Cell({cell, gameOver, setGameOver, countRevealed, getEmp
       <div>
         {flagged ? <img src={flag} alt="flag" style={{height: '40px', transform: `scale(${cell.col % 2 === 0 ? (missFlagged ? '-1.3, 1.3' : '-1, 1') : (missFlagged ? '1.3, 1.3': '1')}`}} /> :
           hidden ? '' :
-            cell.mine ? <img src={bee} alt=":(" style={{height: '60px', marginTop: '-8px', transform: `rotate(${Math.random() * 360}deg)${gameOver && !victory && ' scale(1.6)'}`}} /> :
+            cell.mine ? <img src={bee} alt=":(" style={{height: '60px', marginTop: '-8px', transform: `rotate(${Math.random() * 360}deg)${gameOver && !victory ? ' scale(1.6)' : ''}`}} /> :
               cell.nearBombs > 0 ?
                 cell.nearBombs :
                 ''}
