@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const Header = styled.div`
   display: inline-flex;
   justify-content: center;
-  gap: 80px;
+  gap: 2.5%;
   padding: 23px 0 23px 0;
   text-align: center;
   width: 100%;
@@ -38,7 +38,7 @@ export const Counter = styled.div`
   float: left;
   height: 90px;
   // width: ${props => props.victory ? '400px' : '250px'};
-  padding: 0 50px 0 50px;
+  padding: 0 1.7% 0 2%;
   border-radius: 20px;
   text-align: center;
   font-family: cursive; 
@@ -54,8 +54,15 @@ export const Counter = styled.div`
   }
   img {
     float: right;
-    height: 80px;
-    margin-top: 3px;
+    height: 85px;
+    transition: ease-out 0.5s;
+  }
+  :hover {
+    filter: saturate(200%);
+    img {
+      transform: scale(1.1) skew(-2deg, -2deg);
+      transition: ease-out 0.5s;
+    }
   }
 `
 
@@ -68,4 +75,31 @@ export const GridContainer = styled.div`
   grid-template-rows: repeat(${props => props.rows}, 47px);
   column-gap: 5px;
   row-gap: 5px;
+`
+
+export const Config = styled.img`
+  height: 40px;
+  filter: invert(75%);
+  position: absolute;
+  left: 30px;
+  top: 35px;
+  transition: ease-out 0.3s;
+  cursor: pointer;
+  :hover {
+    transform: scale(1.15) rotate(180deg);
+    filter: invert(90%);
+    transition: ease-out 0.3s;
+  }
+`
+
+export const Icon = styled.img`
+  height: ${props => props.cancel ? '25px' : '30px'};
+  padding:  ${props => props.cancel ? '13px 15px 12px 15px' : '12px 15px 13px 15px'};
+  transition: ease-out 0.3s;
+  cursor: pointer;
+  :hover {
+    transform: scale(1.1);
+    filter: saturate(200%) drop-shadow(0px 0px 15px #${props => props.cancel ? '870000' : '00aa00'});
+    transition: ease-out 0.3s;
+  }
 `

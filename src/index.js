@@ -18,7 +18,7 @@ const GlobalStyle = createGlobalStyle`
         bottom: auto;
         height: auto;
         max-height: 100%;
-        padding: 20px;
+        padding: 35px;
         background: #222;
         color: white;
         text-align: center;
@@ -27,14 +27,14 @@ const GlobalStyle = createGlobalStyle`
         }
         .MuiInputBase-input {
           width: 60px;
-          margin-right: 20px;
+          // margin-right: 20px;
           text-align: center;
-          color: white;
+          color: #bbb;
         }
         .MuiOutlinedInput-notchedOutline {
           border-color: #333;
           width: 60px;
-          margin-right: 20px;
+          // margin-right: 20px;
         }
     }
   }

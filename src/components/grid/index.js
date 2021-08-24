@@ -3,9 +3,11 @@ import Drawer from '@material-ui/core/Drawer';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Cell from '../../components/cell/index';
-import {GridContainer, Header, Counter} from './styles'
+import {GridContainer, Header, Counter, Config, Icon} from './styles'
 import bee from '../../assets/bee2.png'
 import gear from '../../assets/gear.svg'
+import confirm from '../../assets/confirm.svg'
+import cancel from '../../assets/cancel.svg'
 
 export default function Grid() {
   const [gameOver, setGameOver] = useState(false);
@@ -154,9 +156,9 @@ export default function Grid() {
   //   // console.log(parseInt(configEditing.rows.toString().match( /\d+/g ))) 
   // }, [configEditing.rows]);
 
-  useEffect(() => {
-    console.log(revealed);
-  }, [revealed]);
+  // useEffect(() => {
+  //   console.log(revealed);
+  // }, [revealed]);
 
   useEffect(() => {
     if (!gameOver) {
@@ -170,12 +172,12 @@ export default function Grid() {
     setBees(config.mines - flagCounter);
   }, [flagCounter, config]);
 
-  useEffect(() => {
-    createGrid();
-  }, [config]);
+  // useEffect(() => {
+  //   createGrid();
+  // }, [config]);
 
   useEffect(() => {
-    console.log(config.mines - minesFlagged === 0 && config.rows * config.cols - config.mines === revealed);
+    // console.log(config.mines - minesFlagged === 0 && config.rows * config.cols - config.mines === revealed);
     if (config.mines - minesFlagged === 0 && config.rows * config.cols - config.mines === revealed) {
       setVictory(true);
       setGameOver(true);
@@ -187,25 +189,25 @@ export default function Grid() {
       <Drawer anchor="top" open={drawerOpen} onClose={() => {
         setDrawerOpen(false)
         setConfigEditing({...config});
-      }} style={{ padding: '50px'}}>
-        <form>
+      }}>
+        <form style={{display: 'inline-flex', gap: '20px', justifyContent: 'center'}}>
           <TextField
             id="rows"
             type="number"
-            inputProps={{min: "1", step: "1", autocomplete: "off", onKeyPress: (e) => {if (e.key === ',') e.preventDefault()}}}
+            inputProps={{min: "1", step: "1", autoComplete: "off", onKeyPress: (e) => {if (e.key === ',') e.preventDefault()}}}
             label="Rows"
             variant="outlined"
             value={configEditing.rows}
             error={configEditing.rows < 1 || configEditing.rows % 1 !== 0}
             onChange={(e) => {
-              if ((/[^0-9]/).test(e.nativeEvent.data) && e.nativeEvent.data !== null) {
+              if (e.nativeEvent.data && (/[^0-9]/).test(e.nativeEvent.data) && e.nativeEvent.data !== null) {
                 e.preventDefault();
               } else {
                 setConfigEditing({...configEditing, rows: e.target.value.replace(/[^0-9]+/g,"")})
               }
             }}
             onBlur={() => {
-              if (configEditing.rows.slice(0, 1) === '0') {
+              if (configEditing.rows.toString().slice(0, 1) === '0') {
                 let rows = configEditing.rows;
                 while (rows.slice(0, 1) === '0') {
                   rows = rows.slice(1);
@@ -222,20 +224,21 @@ export default function Grid() {
           <TextField
             id="cols"
             type="number"
-            inputProps={{min: "1", step: "1", autocomplete: "off", onKeyPress: (e) => {if (e.key === ',') e.preventDefault()}}}
+            inputProps={{min: "1", step: "1", autoComplete: "off", onKeyPress: (e) => {if (e.key === ',') e.preventDefault()}}}
             label="Columns"
             variant="outlined"
             value={configEditing.cols}
             error={configEditing.cols < 1 || configEditing.cols % 1 !== 0}
             onChange={(e) => {
-              if ((/[^0-9]/).test(e.nativeEvent.data) && e.nativeEvent.data !== null) {
+              if (e.nativeEvent.data && (/[^0-9]/).test(e.nativeEvent.data) && e.nativeEvent.data !== null) {
                 e.preventDefault();
               } else {
                 setConfigEditing({...configEditing, cols: e.target.value.replace(/[^0-9]+/g,"")})
               }
             }}
             onBlur={() => {
-              if (configEditing.cols.slice(0, 1) === '0') {
+
+              if (configEditing.cols.toString().slice(0, 1) === '0') {
                 let cols = configEditing.cols;
                 while (cols.slice(0, 1) === '0') {
                   cols = cols.slice(1);
@@ -252,15 +255,16 @@ export default function Grid() {
           <TextField
             id="bees"
             type="number"
-            inputProps={{min: "1", max: configEditing.rows * configEditing.cols - 1, step: "1", autocomplete: "off", onKeyPress: (e) => {if (e.key === ',') e.preventDefault()}}}
+            inputProps={{min: "1", max: configEditing.rows * configEditing.cols - 1, step: "1", autoComplete: "off", onKeyPress: (e) => {if (e.key === ',') e.preventDefault()}}}
             label="Bees"
             variant="outlined"
             value={configEditing.mines}
             error={configEditing.mines < 1 || configEditing.mines >= configEditing.rows * configEditing.cols}
             onChange={(e) => {
-              console.log(configEditing.mines.slice(-1)); 
-              if (e.target.value.slice(-1) !== "." && e.target.value.slice(-1) !== ",") {
-                setConfigEditing({...configEditing, mines: e.target.value});
+              if (e.nativeEvent.data && (/[^0-9]/).test(e.nativeEvent.data) && e.nativeEvent.data !== null) {
+                e.preventDefault();
+              } else {
+                setConfigEditing({...configEditing, mines: e.target.value.replace(/[^0-9]+/g,"")})
               }
             }}
             onBlur={() => {
@@ -276,22 +280,37 @@ export default function Grid() {
               }
             }}
           />
-          <Button type="submit" onClick={(e) => {
+          <Button
+            style={{height: '55px', width: '45px', padding: '0', marginLeft: '-10px'}}
+            onClick={(e) => {
+              setDrawerOpen(false);
+              setConfigEditing(config);
+          }}>
+            <Icon cancel src={cancel} alt="Cancel" />
+          </Button>
+          <Button
+            type="submit"
+            style={{height: '55px', width: '45px', padding: '0', marginLeft: '-20px'}}
+            onClick={(e) => {
             e.preventDefault();
             setDrawerOpen(false);
             console.log(config, configEditing);
             console.log(config !== configEditing);
             if (config !== configEditing && configEditing.mines < configEditing.rows * configEditing.cols) {
               setConfig(configEditing);
+              setGameOver(true);
+              restart();
             }
             // return false;
-          }}>Apply</Button>
+          }}>
+            <Icon src={confirm} alt="Confirm" />
+          </Button>
         </form>
       </Drawer>
+      <Config src={gear} alt="configure" onClick={() => {
+        setDrawerOpen(true);
+      }} />
       <Header>
-        <img src={gear} alt="configure" onClick={() => {
-          setDrawerOpen(true);
-        }} style={{ height: '50px', width: '50px', filter: 'invert(90%)' }} />
         <Counter victory={victory}>
           {gameOver && gameOver !== "reset" ? (victory ? "Victory!" : "You lost") : (
             <>
@@ -301,7 +320,7 @@ export default function Grid() {
         </Counter>
         <button onClick={() => {
           restart();
-        }} style={{width: '320px'}}>Restart</button>
+        }} style={{padding: '0 2% 0 2%'}}>Restart</button>
       </Header>
       <GridContainer
         cols={config.cols}

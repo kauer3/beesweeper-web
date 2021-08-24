@@ -38,10 +38,11 @@ export default function Cell({cell, gameOver, setGameOver, countRevealed, getEmp
   useEffect(() => {
     if (!hidden) {
       if (cell.nearBombs === 0) {
+      // TODO check if is called on other cell props changes 
         getEmptyCells(cell);
       }
     }
-  }, [hidden, cell.nearBombs])
+  }, [hidden, cell])
 
   return (
     <CellContainer
