@@ -11,6 +11,7 @@ const GlobalStyle = createGlobalStyle`
     // background-size: contain;
     // background-position: center;
     // background-blend-mode: multiply;
+    overflow: hidden;
     .MuiDrawer-paperAnchorTop {
         top: 0;
         left: 0;

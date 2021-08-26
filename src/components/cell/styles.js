@@ -127,7 +127,7 @@ export const CellContainer = styled.div`
   filter: ${props => style(props.type, props.victory ? 'vFil' : 'fil')};
   opacity: ${props => props.slide ? '0%' : '100%'};
   transform: ${props => props.slide ? `translate(${props.evenRow ? '-' : ''}100vw) scale(-1, 1)` : props.type === 'hidden' ? 'translate(0) scale(-1, 1)' : props.victory ? 'scale(1, 1) rotate(-1080deg)' : 'scale(1, 1)'};
-  transition: all ${props => props.slide ? 'none' : props.type === 'mine' || props.victory ? 'ease-in-out 2s' : `ease-out ${props.type === 'hidden' ? '1.5' : '0.4'}s`}, opacity 1s ease-out 0.5s;
+  transition: all ${props => props.slide ? 'none' : props.type === 'mine' || props.victory ? 'ease-in-out 2s' : `ease-out ${props.type === 'hidden' ? '1' : '0.4'}s`}, opacity 1s ease-out 0.5s;
   animation-name: ${props => props.type === 'mine' ? (props.victory ? skew : rotate) : 'none'};
   animation-timing-function: ${props => props.victory ? 'linear' : 'ease-out'};
   animation-delay: ${props => props.victory ? '1.8s' : '0'};
