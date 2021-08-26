@@ -117,7 +117,7 @@ export const GlobalStyle = createGlobalStyle`
     // background-size: contain;
     // background-position: center;
     // background-blend-mode: multiply;
-    overflow: ${props => props.loading ? 'hidden' : 'visible'};
+    overflow-x: ${props => props.loading ? 'hidden' : 'visible'};
     width: ${props => props.width};
     .MuiDrawer-paperAnchorTop {
       top: 0;
