@@ -13,7 +13,7 @@ export default function Grid() {
   const [gameOver, setGameOver] = useState(false);
   const [victory, setVictory] = useState(false);
   const [grid, setGrid] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [revealed, setRevealed] = useState(0); // TODO fix revealed count and update victory formula
   const [flagCounter, setFlagCounter] = useState(0);
   const [minesFlagged, setMinesFlagged] = useState(0);
@@ -68,7 +68,6 @@ export default function Grid() {
       });
     })
     setGrid(arr);
-    setLoading(false);
   }
 
   const getEmptyCells = (cell) => {
@@ -147,9 +146,9 @@ export default function Grid() {
   // }
 
 
-  // useEffect(() => {
-  //   if (gameOver) setGameOver(false)
-  // }, [grid]);
+  useEffect(() => {
+    if (loading) setLoading(false);
+  }, [grid]);
 
   // useEffect(() => {
   //   // let regex = (/[^0-9]+/g);
@@ -175,7 +174,7 @@ export default function Grid() {
   }, [flagCounter, config]);
 
   // useEffect(() => {
-  //   createGrid();
+  //   if (!loading) setLoading(true);
   // }, [config]);
 
   useEffect(() => {
@@ -313,7 +312,9 @@ export default function Grid() {
       <Config src={gear} alt="configure" onClick={() => {
         setDrawerOpen(true);
       }} />
-      <Header>
+      <Header
+        hide={drawerOpen}
+      >
         <Counter victory={victory}>
           {gameOver && gameOver !== "reset" ? (victory ? "Victory!" : "You lost") : (
             <>
@@ -328,12 +329,13 @@ export default function Grid() {
       <GridContainer
         cols={config.cols}
         rows={config.rows}
-        opacity={loading ? '0%' : '100%'}
+        // loading={loading}
       >
         {grid.length > 0 &&
           grid.map((row) => {
             return row.map((cell, index) => {
               return <Cell
+                gridSet={loading}
                 setGameOver={() => setGameOver(true)}
                 countRevealed={() => setRevealed(count => count + 1)}
                 countFlags={(type) => countFlags(type)}

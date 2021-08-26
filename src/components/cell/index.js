@@ -4,7 +4,7 @@ import bee from '../../assets/bee2.png'
 import flag from '../../assets/flag.png'
 import miss from '../../assets/miss2.png'
 
-export default function Cell({cell, gameOver, setGameOver, countRevealed, getEmptyCells, countFlags, countMinesFlagged, victory}) {
+export default function Cell({cell, gameOver, gridSet, setGameOver, countRevealed, getEmptyCells, countFlags, countMinesFlagged, victory}) {
   const [hidden, setHidden] = useState(true);
   const [flagged, setFlagged] = useState(false);
   const [missFlagged, setMissFlagged] = useState(false);
@@ -44,8 +44,13 @@ export default function Cell({cell, gameOver, setGameOver, countRevealed, getEmp
     }
   }, [hidden, cell])
 
+  useEffect(() => {
+    console.log(gridSet);
+  }, [gridSet])
+
   return (
     <CellContainer
+      slide={gridSet}
       number={cell.nearBombs}
       victory={victory}
       random={Math.random() > .5}

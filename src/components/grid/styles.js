@@ -7,6 +7,10 @@ export const Header = styled.div`
   padding: 23px 0 23px 0;
   text-align: center;
   width: 100%;
+  transform: ${props => props.hide ? 'scale(0.8) translate(0, 20px)' : 'none'};
+  opacity: ${props => props.hide ? '0%' : '100%'};
+  transition: ease-out .3s;
+  transition-delay: .2s;
   button {
     cursor: pointer;
     float: right;
@@ -75,8 +79,9 @@ export const GridContainer = styled.div`
   grid-template-rows: repeat(${props => props.rows}, 47px);
   column-gap: 5px;
   row-gap: 5px;
-  opacity: ${props => props.opacity};
-  transition: ease 1s;
+  opacity: ${props => props.loading ? '0' : '100'}%;
+  // transform: scale(${props => props.loading ? '0' : '1'});
+  // transition:  ${props => props.loading ? 'none' : 'ease .5s'};
 `
 
 export const Config = styled.img`

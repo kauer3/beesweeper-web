@@ -97,12 +97,27 @@ const rotate = keyframes`
   }
 `
 
+const slide = keyframes`
+  0% { 
+    transform: translate(0) scale(1);
+  }
+  25% { 
+    transform: translate(0) scale(0);
+  }
+  50% { 
+    transform: translate(-100vw) scale(1);
+  }
+  100% { 
+    transform: translate(0) scale(1);
+  }
+`
+
 export const CellContainer = styled.div`
   height: 66px;
   width: 66px;
   z-index: ${props => props.type === 'mine' && !props.victory ? '1' : '0'};
   // margin-${props => props.evenRow ? 'left' : 'none'}: 30px;
-  margin-left: ${props => props.evenRow ? '0' : '30px'};
+  margin-left: ${props => props.evenRow ? '-5px' : '25px'};
   // margin-right: ${props => props.evenRow ? '15px' : '0'};
   cursor: pointer;
   background-image: ${props => props.type === 'missFlag' || (props.type === 'mine' && !props.victory) ? 'none' : `url(${img})`};
@@ -110,8 +125,9 @@ export const CellContainer = styled.div`
   perspective: 1000px;
   color: ${props => props.number === 1 ? '#0044ff' : props.number === 2 ? '#009900' : props.number === 3 ? 'red' : '#ff0055'};
   filter: ${props => style(props.type, props.victory ? 'vFil' : 'fil')};
-  transform: ${props => props.type === 'hidden' ? 'scale(-1, 1)' : props.victory ? 'scale(1, 1) rotate(-1080deg)' : 'scale(1, 1)'};
-  transition: ${props => props.type === 'mine' || props.victory ? 'ease-in-out 2s' : `ease-in ${props.type === 'hidden' ? '1.5' : '0.4'}s`};
+  opacity: ${props => props.slide ? '0%' : '100%'};
+  transform: ${props => props.slide ? `translate(${props.evenRow ? '-' : ''}100vw) scale(-1, 1)` : props.type === 'hidden' ? 'translate(0) scale(-1, 1)' : props.victory ? 'scale(1, 1) rotate(-1080deg)' : 'scale(1, 1)'};
+  transition: all ${props => props.slide ? 'none' : props.type === 'mine' || props.victory ? 'ease-in-out 2s' : `ease-out ${props.type === 'hidden' ? '1.5' : '0.4'}s`}, opacity 1s ease-out 0.5s;
   animation-name: ${props => props.type === 'mine' ? (props.victory ? skew : rotate) : 'none'};
   animation-timing-function: ${props => props.victory ? 'linear' : 'ease-out'};
   animation-delay: ${props => props.victory ? '1.8s' : '0'};
