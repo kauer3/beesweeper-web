@@ -3,7 +3,14 @@ import Drawer from '@material-ui/core/Drawer';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Cell from '../../components/cell/index';
-import {GridContainer, Header, Counter, Config, Icon} from './styles'
+import {
+  GlobalStyle,
+  GridContainer,
+  Header,
+  Counter,
+  Config,
+  Icon
+} from './styles'
 import bee from '../../assets/bee2.png'
 import gear from '../../assets/gear.svg'
 import confirm from '../../assets/confirm.svg'
@@ -14,6 +21,7 @@ export default function Grid() {
   const [victory, setVictory] = useState(false);
   const [grid, setGrid] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [width, setWidth] = useState('auto');
   const [revealed, setRevealed] = useState(0); // TODO fix revealed count and update victory formula
   const [flagCounter, setFlagCounter] = useState(0);
   const [minesFlagged, setMinesFlagged] = useState(0);
@@ -147,8 +155,13 @@ export default function Grid() {
 
 
   useEffect(() => {
-    if (loading) setLoading(false);
-  }, [grid]);
+    if (loading) {
+      setWidth('100%');
+      setTimeout(() => {setLoading(false)}, 2000);
+    } else {
+      setWidth('auto');
+    }
+  }, [loading]);
 
   // useEffect(() => {
   //   // let regex = (/[^0-9]+/g);
@@ -187,6 +200,7 @@ export default function Grid() {
 
   return (
     <>
+      <GlobalStyle loading={loading} />
       <Drawer anchor="top" open={drawerOpen} onClose={() => {
         setDrawerOpen(false)
         setConfigEditing({...config});
@@ -298,9 +312,9 @@ export default function Grid() {
             console.log(config, configEditing);
             console.log(config !== configEditing);
             if (config !== configEditing && configEditing.mines < configEditing.rows * configEditing.cols) {
+              setGameOver(true);
               setLoading(true);
               setConfig(configEditing);
-              setGameOver(true);
               restart();
             }
             // return false;

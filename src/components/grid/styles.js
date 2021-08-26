@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, {createGlobalStyle} from 'styled-components'
 
 export const Header = styled.div`
   display: inline-flex;
@@ -108,5 +108,42 @@ export const Icon = styled.img`
     transform: scale(1.1);
     filter: saturate(200%) drop-shadow(0px 0px 15px #${props => props.cancel ? '870000' : '00aa00'});
     transition: ease-out 0.3s;
+  }
+`
+
+export const GlobalStyle = createGlobalStyle`
+  body {
+    background: #222;
+    // background-size: contain;
+    // background-position: center;
+    // background-blend-mode: multiply;
+    overflow: ${props => props.loading ? 'hidden' : 'visible'};
+    width: ${props => props.width};
+    .MuiDrawer-paperAnchorTop {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: auto;
+      height: auto;
+      max-height: 100%;
+      padding: 35px;
+      background: #222;
+      color: white;
+      text-align: center;
+      * {
+        color: #999;
+      }
+      .MuiInputBase-input {
+        width: 60px;
+        // margin-right: 20px;
+        text-align: center;
+        color: #bbb;
+      }
+      .MuiOutlinedInput-notchedOutline {
+        border-color: #333;
+        width: 60px;
+        // margin-right: 20px;
+      }
+    }
   }
 `
