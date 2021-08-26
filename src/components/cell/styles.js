@@ -108,7 +108,7 @@ const slideEven = keyframes`
 
 const slideOdd = keyframes`
   0% { 
-    transform: translate(100vw) scale(0) rotate(360deg);
+    transform: translate(100vw) scale(0) rotate(-360deg);
   }
   100% { 
     transform: translate(0) scale(1) rotate(0deg);
