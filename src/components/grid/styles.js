@@ -22,7 +22,7 @@ export const Header = styled.div`
     font-family: cursive; 
     font-weight: bold;
     font-size: 60px;
-    background-color: #25852E;
+    background-color: #43A047;
     :hover {
       transform: scale(1.05, 1.03);
       filter: hue-rotate(45deg) saturate(250%);
@@ -75,6 +75,8 @@ export const GridContainer = styled.div`
   grid-template-rows: repeat(${props => props.rows}, 47px);
   column-gap: 5px;
   row-gap: 5px;
+  opacity: ${props => props.opacity};
+  transition: ease 1s;
 `
 
 export const Config = styled.img`

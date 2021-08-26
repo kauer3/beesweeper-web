@@ -13,6 +13,7 @@ export default function Grid() {
   const [gameOver, setGameOver] = useState(false);
   const [victory, setVictory] = useState(false);
   const [grid, setGrid] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [revealed, setRevealed] = useState(0); // TODO fix revealed count and update victory formula
   const [flagCounter, setFlagCounter] = useState(0);
   const [minesFlagged, setMinesFlagged] = useState(0);
@@ -67,6 +68,7 @@ export default function Grid() {
       });
     })
     setGrid(arr);
+    setLoading(false);
   }
 
   const getEmptyCells = (cell) => {
@@ -297,6 +299,7 @@ export default function Grid() {
             console.log(config, configEditing);
             console.log(config !== configEditing);
             if (config !== configEditing && configEditing.mines < configEditing.rows * configEditing.cols) {
+              setLoading(true);
               setConfig(configEditing);
               setGameOver(true);
               restart();
@@ -325,6 +328,7 @@ export default function Grid() {
       <GridContainer
         cols={config.cols}
         rows={config.rows}
+        opacity={loading ? '0%' : '100%'}
       >
         {grid.length > 0 &&
           grid.map((row) => {
