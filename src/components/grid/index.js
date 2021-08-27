@@ -3,7 +3,14 @@ import Drawer from '@material-ui/core/Drawer';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Cell from '../../components/cell/index';
-import {GridContainer, Header, Counter, Config, Icon} from './styles'
+import {
+  GlobalStyle,
+  GridContainer,
+  Header,
+  Counter,
+  Config,
+  Icon
+} from './styles'
 import bee from '../../assets/bee2.png'
 import gear from '../../assets/gear.svg'
 import confirm from '../../assets/confirm.svg'
@@ -187,6 +194,7 @@ export default function Grid() {
 
   return (
     <>
+      <GlobalStyle />
       <Drawer anchor="top" open={drawerOpen} onClose={() => {
         setDrawerOpen(false)
         setConfigEditing({...config});
