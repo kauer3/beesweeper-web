@@ -79,9 +79,6 @@ export const GridContainer = styled.div`
   grid-template-rows: repeat(${props => props.rows}, 47px);
   column-gap: 5px;
   row-gap: 5px;
-  opacity: ${props => props.loading ? '0' : '100'}%;
-  // transform: scale(${props => props.loading ? '0' : '1'});
-  // transition:  ${props => props.loading ? 'none' : 'ease .5s'};
 `
 
 export const Config = styled.img`

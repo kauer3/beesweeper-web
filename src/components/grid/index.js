@@ -329,7 +329,6 @@ export default function Grid() {
       <GridContainer
         cols={config.cols}
         rows={config.rows}
-        // loading={loading}
       >
         {grid.length > 0 &&
           grid.map((row) => {
