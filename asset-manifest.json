@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.js": "/beesweeper-web/static/js/main.d9772818.chunk.js",
+    "main.js.map": "/beesweeper-web/static/js/main.d9772818.chunk.js.map",
+    "runtime-main.js": "/beesweeper-web/static/js/runtime-main.749a273b.js",
+    "runtime-main.js.map": "/beesweeper-web/static/js/runtime-main.749a273b.js.map",
+    "static/js/2.6c835405.chunk.js": "/beesweeper-web/static/js/2.6c835405.chunk.js",
+    "static/js/2.6c835405.chunk.js.map": "/beesweeper-web/static/js/2.6c835405.chunk.js.map",
+    "index.html": "/beesweeper-web/index.html",
+    "static/js/2.6c835405.chunk.js.LICENSE.txt": "/beesweeper-web/static/js/2.6c835405.chunk.js.LICENSE.txt",
+    "static/media/back.dda82bef.jfif": "/beesweeper-web/static/media/back.dda82bef.jfif",
+    "static/media/bee2.6a6a1aa9.png": "/beesweeper-web/static/media/bee2.6a6a1aa9.png",
+    "static/media/cancel.fdf1fbdd.svg": "/beesweeper-web/static/media/cancel.fdf1fbdd.svg",
+    "static/media/confirm.ea4f0b17.svg": "/beesweeper-web/static/media/confirm.ea4f0b17.svg",
+    "static/media/flag.155c6751.png": "/beesweeper-web/static/media/flag.155c6751.png",
+    "static/media/gear.4cbd52fb.svg": "/beesweeper-web/static/media/gear.4cbd52fb.svg",
+    "static/media/miss2.d5cf22b2.png": "/beesweeper-web/static/media/miss2.d5cf22b2.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.749a273b.js",
+    "static/js/2.6c835405.chunk.js",
+    "static/js/main.d9772818.chunk.js"
+  ]
+}
