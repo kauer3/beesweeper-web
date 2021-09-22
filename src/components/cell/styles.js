@@ -132,7 +132,7 @@ export const CellContainer = styled.div`
   transition: ${props => props.type === 'mine' || props.victory ? 'ease-in-out 2s' : `ease-out ${props.type === 'hidden' ? '1.5' : '0.4'}s`};
   animation-name: ${props => props.slide ? (props.evenRow ? slideEven : slideOdd) : props.type === 'mine' ? (props.victory ? skew : rotate) : 'none'};
   animation-timing-function: ${props => props.victory ? 'linear' : 'ease-out'};
-  animation-delay: ${props => props.victory ? '1.8s' : '0'};
+  animation-delay: ${props => props.victory ? '1.8' : props.row*0.1}s;
   animation-duration: ${props => props.slide ? '1s' : props.evenCol ? '4s' : '3.5s'};
   animation-iteration-count:  ${props => props.slide ? '1' : 'infinite'};
   animation-direction: ${props => props.slide || props.evenCol ? 'normal' : 'alternate'};

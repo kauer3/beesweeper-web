@@ -54,6 +54,7 @@ export default function Cell({cell, gameOver, gridSet, setGameOver, countReveale
       number={cell.nearBombs}
       victory={victory}
       random={Math.random() > .5}
+      row={cell.row}
       evenRow={cell.row % 2 !== 0}
       evenCol={cell.col % 2 !== 0}
       type={hidden ? (flagged ? (missFlagged ? 'missFlag' : 'flag') : 'hidden') : cell.mine ? 'mine' : cell.nearBombs === 0 ? 'empty' : 'number'}
